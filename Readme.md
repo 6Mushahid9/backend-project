@@ -22,8 +22,6 @@ This is my first backend project
 
 1. make cluster in mongo atlas
 2. copy its connection string and paste it in .env
-    * remove '/' from the end and replace " <password> " with actual password
+    * remove '/' from the end and replace "password" with actual password
 3. whenever talking wth database use try-catch and async-await
-4. we can write connection code in index.js or in some other file then import it in index.js for clarity
-
-password - mush123
+4. we can write connection code in index.js OR in some other file then import it in index.js for clarity
