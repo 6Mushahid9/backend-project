@@ -1,6 +1,6 @@
 # Started on 28-6-2024
 
-this is my first backend project
+This is my first backend project
 
 # Notes
 
@@ -16,3 +16,14 @@ this is my first backend project
 8. install 'prettier' package to resolve later foramtting conflicts;  "npm i -D prettier"
    when you add this prettier package some extra things are to be done as well: 
    1. add '.prettierrc' and '.prettierignore' file in main project 
+   2. make nesessary chnages in both the files
+
+## Connecting with data base
+
+1. make cluster in mongo atlas
+2. copy its connection string and paste it in .env
+    * remove '/' from the end and replace " <password> " with actual password
+3. whenever talking wth database use try-catch and async-await
+4. we can write connection code in index.js or in some other file then import it in index.js for clarity
+
+password - mush123
