@@ -25,3 +25,4 @@ This is my first backend project
     * remove '/' from the end and replace "password" with actual password
 3. whenever talking wth database use try-catch and async-await
 4. we can write connection code in index.js OR in some other file then import it in index.js for clarity
+5. the DB connection func. made here is async func. therefore it will return a promise so we apply then & catch methods
