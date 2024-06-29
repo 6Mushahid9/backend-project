@@ -33,4 +33,6 @@ This is my first backend project
 2. filed are stored in cloudinary via multer (not directly)
 3. in this project we will first upload files in private server then from there upload it to cloudinary, but we can also skip this process and directly upload files to cloudinary
 
-    * utilities are functions that we can use anywhere , middlewares are func. that we want to call before execution of some process
+    * utilities are functions that we can use anywhere , middlewares are func. that we want to call before execution of some process;
+     therefore we will place functions of multer in middlewares
+
