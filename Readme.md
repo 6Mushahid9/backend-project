@@ -26,3 +26,11 @@ This is my first backend project
 3. whenever talking wth database use try-catch and async-await
 4. we can write connection code in index.js OR in some other file then import it in index.js for clarity
 5. the DB connection func. made here is async func. therefore it will return a promise so we apply then & catch methods
+
+## Uploadation
+
+1. two packages are used : cloudinay and multer
+2. filed are stored in cloudinary via multer (not directly)
+3. in this project we will first upload files in private server then from there upload it to cloudinary, but we can also skip this process and directly upload files to cloudinary
+
+### * utilities are functions that we can use anywhere , middleweres are func. that we want to call bbefore execution of some process
