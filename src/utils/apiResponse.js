@@ -1,5 +1,5 @@
 // we want to standerise the way our responces are shown in our application
-class apiResponce{
+class apiResponse{
     constructor(statusCode, data, message= "Success"){
         this.statusCode = statusCode
         this.data= data
@@ -7,4 +7,4 @@ class apiResponce{
         this.status= statusCode < 400
     }
 }
-export {apiResponce}
+export {apiResponse}
