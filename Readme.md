@@ -36,3 +36,9 @@ This is my first backend project
     * utilities are functions that we can use anywhere , middlewares are func. that we want to call before execution of some process;
      therefore we will place functions of multer in middlewares
 
+## HTTP
+
+1. it is set of rules of how to share text through internet efficiently 
+2. HTTP headers are key-value pairs along with request and response (metadata) that stores info 
+![alt text](image.png)
+
