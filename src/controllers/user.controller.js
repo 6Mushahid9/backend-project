@@ -15,14 +15,14 @@ const registerUser= asyncHandler(async(req,res)=>{
     // remove password and refresh token from respose
     // return respose
 
-    const {username, email, password}= req.body
+    const {fullName, userName, email, password}= req.body
     console.log("email:", email)
 
     // if(username === "") throw new apiError(400, "username required")
     // we can do apply same check for rest of fields
     // but here we will do in single block of code
     if(
-        [fullName, email, username, password].some((field)=>
+        [fullName, email, userName, password].some((field)=>
             field?.trim()=== "")
     ){
         throw new apiError(400, "all fields are required")
@@ -30,8 +30,8 @@ const registerUser= asyncHandler(async(req,res)=>{
 
     // const existedUser= User.findOne(email)
     // above code will check for existing user using email field only, if we want to use multiple fields then :
-    const existedUser = User.findOne({
-        $or: [{username}, {email}]
+    const existedUser = await User.findOne({
+        $or: [{userName}, {email}]
     })
     // ".findOne" return any object present in DB, if its null then user is new 
     if(existedUser){
@@ -44,23 +44,23 @@ const registerUser= asyncHandler(async(req,res)=>{
     const avatarLocalPath= req.files?.avatar[0]?.path
     const coverImageLocalPath= req.files?.coverImage[0]?.path
 
-    if(!avatarLocalPath)    throw new apiError(400, "avatar img is required")
+    if(!avatarLocalPath)    throw new apiError(400, "avatar img is required (multer)")
 
     // below code will upload on cloudinary
     const avatar= await uploadOnCloudinary(avatarLocalPath)
     const coverImage= await uploadOnCloudinary(coverImageLocalPath)
 
     // now before entering in DB once again check if avatar is available
-    if(!avatar) throw new apiError(400, "avatar img is required")
+    if(!avatar) throw new apiError(400, "avatar img is required (cloud)")
 
     // finally we are going to save entries in DB
     const user= User.create({
         fullName,
-        avatar: avatar.url, // cloudinary will give many fields as response in avatar but v ned only url
+        avatar: avatar.url, // cloudinary will give many fields as response in avatar but v need only url
         coverImage: coverImage.url || "", // coverImage is not neseccary so if there is no cover image then we will save ampty string, this is why we never checked for coverImage
         email,
         password,
-        username: username.toLowerCase()
+        userName: userName.toLowerCase()
     })
 
     // there can be an error by server so we will check even if user was created
