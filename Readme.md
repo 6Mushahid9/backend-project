@@ -40,5 +40,5 @@ This is my first backend project
 
 1. it is set of rules of how to share text through internet efficiently 
 2. HTTP headers are key-value pairs along with request and response (metadata) that stores info 
-![alt text](image.png)
+3. ![alt text](image-1.png)
 
