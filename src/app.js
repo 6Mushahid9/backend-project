@@ -22,6 +22,12 @@ app.use(express.static("public"))
 // to access and to set cookies of browser 
 app.use(cookieParser())
 
+// we can import and use routes but we will keep them seperately for clean code
+// routes import 
+import  userRouter  from './routes/user.routes.js'
+
+// routes declaration 
+app.use("/users", userRouter)
 
 
 export {app}

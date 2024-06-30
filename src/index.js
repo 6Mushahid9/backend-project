@@ -12,7 +12,7 @@ connectDB()
 // till now our database was connected but our application was not listning
 .then(()=>{
     app.listen(process.env.PORT || 8000, ()=>{
-        console.log(`App is running on port : ${PORT}`)
+        console.log(`App is running on port : ${process.env.PORT}`)
     })
 })
 .catch((err)=>{
