@@ -55,6 +55,11 @@ userSchema.pre("save", async function(next){
     next()
 })
 
+userSchema.methods.isPasswordCorrect= async function(password){
+    return await bcrypt.compare(password, this.password)
+}
+// above method will check if password entered by existing user is correct or not
+
 // userSchema is an object of Schema with predefined functions, we can also make our own func(s)
 userSchema.methods.generateAccessToken = function(){
     return jwt.sign(

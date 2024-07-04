@@ -42,3 +42,12 @@ This is my first backend project
 3. ![alt text](image-1.png)
 4. ![alt text](image-2.png)
 
+## Tokens
+
+There are two types of tokens: Access(Short lived) and Refresh(Long lived).
+When a user login for the first time we give both access and refresh token and also save them in DB, again when user wants to log in we just compare the refresh token, if its same then he can log in without again vrifying all info.
+This is done through Refresh token cuz Access token expires early.
+
+## Writing Own Middleware
+
+We made login function by using email, password, username, etc that user gave itself. But, when we have to create logout func. we cannot ask user to again us data again, therefore we will create our own middleware (named: auth) to solve this issue
