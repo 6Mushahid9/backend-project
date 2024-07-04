@@ -44,6 +44,7 @@ This is my first backend project
 
 ## Tokens
 
+Toekns are used so that used dont have give credentials again and again
 There are two types of tokens: Access(Short lived) and Refresh(Long lived).
 When a user login for the first time we give both access and refresh token and also save them in DB, again when user wants to log in we just compare the refresh token, if its same then he can log in without again vrifying all info.
 This is done through Refresh token cuz Access token expires early.

@@ -1,11 +1,11 @@
-import { User } from "../models/user.model";
-import { apiError } from "../utils/apiError";
-import { asyncHandler } from "../utils/asyncHandler";
+import { User } from "../models/user.model.js";
+import { apiError } from "../utils/apiError.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
 import jwt from "jsonwebtoken"
 
 export const verifyJWT = asyncHandler(async(req,res,next)=>{
    try {
-     // this func. will retrive browser cookies to get tokens 
+     // this func. will get user currently using application
      const token= req.cookies?.accessToken || req.header("Authentication")?.replace("Bearer", "")
      // we can retrive token using req
      // header code is used when using mobile, 

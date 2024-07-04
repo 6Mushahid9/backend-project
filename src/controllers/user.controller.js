@@ -89,7 +89,6 @@ const generateAccessAndRefreshToken= async(userId)=> {
         const accessToken= user.generateAccessToken()
         const refreshToken= user.generateRefreshToken()
         // now we have to update current user and DB too
-        user.accessToken= accessToken
         user.refreshToken= refreshToken
         await user.save({validateBeforeSave: false})
         return {accessToken, refreshToken}
@@ -105,9 +104,9 @@ const loginUser = asyncHandler(async (req,res)=>{
     // authenticate
     // access and refresh token
     // send cookie
-
+    
     const {email, password, userName}= req.body
-    if(!userName || !password) throw new apiError(400, "password or username required")
+    if(!userName) throw new apiError(400, "username required")
     
     const user= await User.findOne({
         $or: [{userName}, {password}]

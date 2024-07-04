@@ -6,7 +6,7 @@ import { verifyJWT } from "../middlewares/auth.middleware.js";
 const router = Router()
 
 router.route("/register").post(
-    // this multer middleware will upload img on server efore calling userRegister
+    // this multer middleware will upload img on server before calling userRegister
     upload.fields([
         {
             name: "avatar",
