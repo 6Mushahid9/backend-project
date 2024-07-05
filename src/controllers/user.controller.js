@@ -3,6 +3,13 @@ import {apiError} from "../utils/apiError.js"
 import {User} from "../models/user.model.js"
 import {uploadOnCloudinary} from "../utils/cloudinary.js"
 import { apiResponse } from "../utils/apiResponse.js"
+import jwt from "jsonwebtoken"
+
+const options = {
+    httpOnly: true,
+    secure: true
+}
+// above code will help to secure cookies
 
 const registerUser= asyncHandler(async(req,res)=>{
     // res.status(200).json({message: "ok"})
@@ -121,12 +128,6 @@ const loginUser = asyncHandler(async (req,res)=>{
     // our user was updated in DB but object here (user) is not updated 
     const loggedInUser= await User.findById(user._id).select("-password -refreshToken")
 
-    const options = {
-        httpOnly: true,
-        secure: true
-    }
-    // our cookies are modifiable from fronend, to secure them use above code 
-
     return res.status(200)
     .cookie("accessToken", accessToken, options)
     .cookie("refreshToken", refreshToken, options)
@@ -152,10 +153,6 @@ const logoutUser = asyncHandler(async(req,res)=>{
         }
     )
 
-    const options = {
-        httpOnly: true,
-        secure: true
-    }
     return res.status(200)
     .clearCookie("accessToken", options)
     .clearCookie("refreshToken", options)
@@ -163,8 +160,43 @@ const logoutUser = asyncHandler(async(req,res)=>{
 
 })
 
+// making an endpoint to generate new access token using saved refresh token
+const refreshAccessToken = asyncHandler(async(req,res)=>{
+
+    // first extract refresh token
+    const incomingRefreshToken= req.cookies.refreshToken || req.body.refreshToken
+    if(!incomingRefreshToken)   throw new apiError(400, "unauthorised request")
+    
+    // we got our refresh token, now check if its valid
+    const decodedToken = jwt.verify(incomingRefreshToken, process.env.REFRESH_TOKEN_SECRET)
+    if(!decodedToken) throw new apiError(400, "refresh token is not valid")
+    
+    
+    // now find user from DB
+    const user = await User.findById(decodedToken._id)
+    if(!user) throw new apiError(400, "unabe to find user")
+
+    // now check if the refresh token we got & token saved in DB is same or not
+    if(!user.refreshToken == incomingRefreshToken) throw new apiError(400, "Refresh token expired")
+
+    // now since everything is fine we will generate new tokens
+    const {accessToken, newRefreshToken}= await generateAccessAndRefreshToken(user._id)
+
+    return res.status(200)
+    .cookie("accessToken", accessToken, options)
+    .cookie("refreshToken", newRefreshToken, options)
+    .json(
+        new apiResponse(
+            200, 
+            {accessToken, refreshToken: newRefreshToken},
+            "access token refreshed"
+        )
+    )
+})
+
 export {
     registerUser,
     loginUser,
-    logoutUser
+    logoutUser,
+    refreshAccessToken
 }
