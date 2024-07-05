@@ -194,9 +194,43 @@ const refreshAccessToken = asyncHandler(async(req,res)=>{
     )
 })
 
+// now we can make as many controlls as required 
+// 1. here we are making to change text field
+const changePassword= asyncHandler(async(req,res)=>{
+    const {oldPassword, newPassword}= req.body
+    // we are already logged in at this point therefore req has user 
+    const user= await User.findById(req.user?._id)
+    const validPassword= await user.isPasswordCorrect(oldPassword)
+    if(!validPassword) throw new apiError(400, "invalid old password")
+
+    user.password= newPassword
+    await user.save({validateBeforeSave: false})
+    return res.status(200).json(new apiResponse(200, {}, "password updated successfully"))
+})
+// 2. here we are making to change file
+const changeAvatar= asyncHandler(async(req,res)=>{
+
+    const avatarLocalPath= req.file?.path
+    if(!avatarLocalPath)  throw new apiError(400, "Avatar not found")
+
+    const avatar = await uploadOnCloudinary(avatarLocalPath)
+    if(!avatar.url) throw new apiError(400, "Error while uploading on cloudinary")
+    const user= await User.findByIdAndUpdate(req.user?._id,
+        {
+            $set : { avatar:avatar.url }
+        },
+        {new: true}
+    ).select("-password")
+
+    return res.status(200)
+    .json(new apiResponse(200, "Cover image updated successfully"))
+})
+
 export {
     registerUser,
     loginUser,
     logoutUser,
-    refreshAccessToken
+    refreshAccessToken,
+    changePassword,
+    changeAvatar
 }
