@@ -52,3 +52,11 @@ This is done through Refresh token cuz Access token expires early.
 ## Writing Own Middleware
 
 We made login function by using email, password, username, etc that user gave itself. But, when we have to create logout func. we cannot ask user to again us data again, therefore we will create our own middleware (named: auth) to solve this issue
+
+## Understanding subscription schema
+
+![alt text](image.png)
+
+Here whenever someone subscribe, a new object with two fields:{channel and user} is created
+so if we want no. of subscribers of a perticular channel then count no. of objects having name of same channel 
+& if we want to count how many channels a user is subscribing then count no. of objects having name of same user
